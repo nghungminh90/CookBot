@@ -7,5 +7,5 @@ Cookpadサイトから情報収集の遊びプロジェクト
 実施方法：
 scrapy crawl cookpad --set FEED_EXPORT_ENCODING=utf-8 --output=cookpad.json
 
-データ取得先はcookpad.pyにおけるstart_urls変数を編集
+データ取得先はcookpad.pyにおけるstart_urls変数を編集<br>
 ページネーションパターンの編集はrules変数を編集
