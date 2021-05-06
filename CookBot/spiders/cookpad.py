@@ -17,7 +17,7 @@ class CookpadSpider(CrawlSpider):
     start_urls = [
         # きょうの料理
         'https://cookpad.com/search/%E6%8A%B9%E8%8C%B6',   # 抹茶
-        
+
     ]
     rules = (
         # Follow pagination
@@ -60,7 +60,7 @@ class CookpadSpider(CrawlSpider):
                     # normal ingredient
                     name = ingredient_node.xpath('div[1]/span/text()').extract()[0].strip()
                 quantity = ingredient_node.xpath('div[2]/text()').extract()[0].strip()
-            except:
+            finally:
                 continue
 
             ingredient = Ingredient()
@@ -73,14 +73,15 @@ class CookpadSpider(CrawlSpider):
         tempInstruction = hxs.xpath(
             "//dd[@class='instruction']/p/text()"
         ).extract()
-        
+
         recipe['instructions'] = [s.strip() for s in tempInstruction];
+
         # report count
         try:
             recipe['report_count'] = int(
                 ''.join(hxs.xpath("//li[@id='tsukurepo_tab']/a/span/text()").re('(\d+)'))
             )
-        except:
+        finally:
             recipe['report_count'] = 0
 
         # published date
@@ -91,4 +92,4 @@ class CookpadSpider(CrawlSpider):
         recipe['updated_date'] = hxs.xpath(
             "//div[@id='recipe_id_and_published_date']/span[3]/text()").re('\d{2}/\d{2}/\d{2}')[0]
 
-        return recipe
+        return recipe;
