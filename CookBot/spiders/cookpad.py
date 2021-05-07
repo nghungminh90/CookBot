@@ -27,7 +27,8 @@ class CookpadSpider(CrawlSpider):
         Rule(LinkExtractor(allow=(r'recipe/\d+',)), callback='parse_recipe')
     )
 
-    def parse_recipe(self, response):
+    @staticmethod
+    def parse_recipe(response):
         hxs = Selector(response)
         recipe = CookpadRecipe()
 
@@ -74,7 +75,7 @@ class CookpadSpider(CrawlSpider):
             "//dd[@class='instruction']/p/text()"
         ).extract()
 
-        recipe['instructions'] = [s.strip() for s in tempInstruction];
+        recipe['instructions'] = [s.strip() for s in tempInstruction]
 
         # report count
         try:
@@ -92,4 +93,4 @@ class CookpadSpider(CrawlSpider):
         recipe['updated_date'] = hxs.xpath(
             "//div[@id='recipe_id_and_published_date']/span[3]/text()").re('\d{2}/\d{2}/\d{2}')[0]
 
-        return recipe;
+        return recipe
