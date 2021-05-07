@@ -17,7 +17,7 @@ class CookpadSpider(CrawlSpider):
         'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
     }
     start_urls = [
-        'https://cookpad.com/search/%E6%8A%B9%E8%8C%B6',   # 抹茶
+        'https://cookpad.com/search/%E6%8A%B9%E8%8C%B6',  # 抹茶
     ]
     rules = (
         # Follow pagination
@@ -36,7 +36,7 @@ class CookpadSpider(CrawlSpider):
 
         # name
         recipe['name'] = hxs.xpath("//div[@id='recipe-title']/h1/text()")[0] \
-                            .extract().strip()
+            .extract().strip()
 
         # author
         recipe['author'] = int(
@@ -45,7 +45,7 @@ class CookpadSpider(CrawlSpider):
 
         # description
         recipe['description'] = ''.join(hxs.xpath("//div[@id='description']/div[@class='description_text']/text()") \
-                                           .extract()).strip()
+                                        .extract()).strip()
 
         # ingredients
         ingredients = []
@@ -60,7 +60,7 @@ class CookpadSpider(CrawlSpider):
                     # normal ingredient
                     name = ingredient_node.xpath('div[1]/span/text()').extract()[0].strip()
                 quantity = ingredient_node.xpath('div[2]/text()').extract()[0].strip()
-            finally:
+            except:
                 continue
 
             ingredient = Ingredient()
@@ -81,7 +81,7 @@ class CookpadSpider(CrawlSpider):
             recipe['report_count'] = int(
                 ''.join(hxs.xpath("//li[@id='tsukurepo_tab']/a/span/text()").re('(\d+)'))
             )
-        finally:
+        except:
             recipe['report_count'] = 0
 
         # published date
