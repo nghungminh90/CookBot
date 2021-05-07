@@ -13,11 +13,11 @@ class CookpadSpider(CrawlSpider):
     name = 'cookpad'
     allowed_domains = ['cookpad.com']
     download_delay = 1
-
+    custom_settings = {
+        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
+    }
     start_urls = [
-        # きょうの料理
         'https://cookpad.com/search/%E6%8A%B9%E8%8C%B6',   # 抹茶
-
     ]
     rules = (
         # Follow pagination
